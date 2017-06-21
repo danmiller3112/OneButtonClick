@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import com.com.ulike_app.onebuttonclick.model.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,22 +71,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void onClickActions() {
         if (index >= configs.size())
             index = 0;
-        if (isActionRunnable()){
+        if (isActionRunnable()) {
+            configs.get(index).setStartTime(Calendar.getInstance().getTimeInMillis());
             String type = configs.get(index++).getType();
             new ActionFactory().getAction(type).actionRun(this);
+        } else {
+            index++;
+            Toast.makeText(this, "No active Actions", Toast.LENGTH_LONG).show();
         }
 
     }
 
     public boolean isActionRunnable() {
         ActionEntity tmpAction = configs.get(index);
-        if(!tmpAction.isEnabled()){
-           return false;
-        }
-        if(!tmpAction.isValidDay()){
+        if (!tmpAction.isEnabled()) {
+            Log.d("isEnabled", "isActionRunnable: false");
             return false;
         }
-        if(tmpAction.isCooledDown()){
+        if (!tmpAction.isValidDay()) {
+            Log.d("isValidDay", "isActionRunnable: false");
+            return false;
+        }
+        if (tmpAction.isCoolDown()) {
+            Log.d("isCoolDown", "isActionRunnable: false");
             return false;
         }
         return true;
@@ -111,8 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFY_ID, builderNotification.build());
     }
-
-
 
 
     /**

@@ -70,6 +70,14 @@ public class ActionEntity implements Comparable<ActionEntity> {
         this.cool_down = cool_down;
     }
 
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
+    }
+
     @Override
     public String toString() {
         return "ActionEntity{" +
@@ -98,7 +106,7 @@ public class ActionEntity implements Comparable<ActionEntity> {
         return false;
     }
 
-    public boolean isCooledDown() {
+    public boolean isCoolDown() {
         Calendar calendar = Calendar.getInstance();
         return calendar.getTimeInMillis() < (startTime + cool_down);
     }

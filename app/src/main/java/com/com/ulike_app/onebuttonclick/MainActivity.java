@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Context context;
     private int index;
     private Intent intentPhone;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
         intentPhone = new Intent(Intent.ACTION_DIAL);
+        mediaPlayer = MediaPlayer.create(this, R.raw.error_sound);
 
         btnAction = (Button) findViewById(R.id.btn_action);
         btnAction.setOnClickListener(this);
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             index++;
             Toast.makeText(this, "No active Actions", Toast.LENGTH_LONG).show();
+            mediaPlayer.start();
         }
 
     }
@@ -85,15 +89,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean isActionRunnable() {
         ActionEntity tmpAction = configs.get(index);
         if (!tmpAction.isEnabled()) {
-            Log.d("isEnabled", "isActionRunnable: false");
+            Log.d("isEnabled", "isActionRunnable: false " + tmpAction);
             return false;
         }
         if (!tmpAction.isValidDay()) {
-            Log.d("isValidDay", "isActionRunnable: false");
+            Log.d("isValidDay", "isActionRunnable: false" + tmpAction);
             return false;
         }
         if (tmpAction.isCoolDown()) {
-            Log.d("isCoolDown", "isActionRunnable: false");
+            Log.d("isCoolDown", "isActionRunnable: false" + tmpAction);
             return false;
         }
         return true;

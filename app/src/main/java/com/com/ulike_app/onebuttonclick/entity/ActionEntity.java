@@ -86,9 +86,9 @@ public class ActionEntity implements Comparable<ActionEntity> {
                 ", priority=" + priority +
                 ", valid_days=" + Arrays.toString(valid_days) +
                 ", cool_down=" + cool_down +
+                ", startTime=" + startTime +
                 '}';
     }
-
 
     @Override
     public int compareTo(@NonNull ActionEntity o) {

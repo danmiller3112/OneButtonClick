@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">OneButtonClick</string>
+    <string name="click_me">Click on Me!</string>
+    <string name="notif_title">"Notification!"</string>
+    <string name="notif_text">"Current action is Notification"</string>
+</resources>
